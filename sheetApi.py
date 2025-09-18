@@ -40,7 +40,7 @@ class SheetAPI:
         ).execute()
 
 
-SheetAPI().update_values("D3:D3", [["test"]])
+# SheetAPI().update_values("D3:D3", [["test"]])
 
 
 # sheet_read = sheet.values().get(spreadsheetId=sheet_id, range="A1:C4").execute()
