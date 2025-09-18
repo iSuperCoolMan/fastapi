@@ -1,6 +1,9 @@
-import google.api
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
+
+
+creds = Credentials.from_authorized_user_file(filename="token.json")
+id = "1R_Fn8pZjGBPLyNb-2PogOoJexma0ASICCq-5sJir-Ec"
 
 
 class SheetAPI:
@@ -10,7 +13,7 @@ class SheetAPI:
     __sheet_id = None
 
 
-    def __init__(self, creds_file_name: str, sheet_id: str):
+    def __init__(self, creds_file_name: str = creds, sheet_id: str = id):
         self.__creds = Credentials.from_authorized_user_file(filename=creds_file_name)
         self.__service = build("sheets", "v4", credentials=self.__creds)
         self.__sheet = self.__service.spreadsheets()
@@ -18,7 +21,7 @@ class SheetAPI:
 
 
     def get_values(self, range: str):
-        sheet_read = sheet.values().get(
+        sheet_read = self.__sheet.values().get(
             spreadsheetId=self.__sheet_id,
             range=range
         ).execute()
@@ -27,30 +30,22 @@ class SheetAPI:
 
 
     def update_values(self, range: str, values: str):
-        sheet.values().update(
-            spreadsheetId=sheet_id,
+        self.__sheet.values().update(
+            spreadsheetId=self.__sheet_id,
             range="A1:B2",
             valueInputOption="RAW",
             body=body
         ).execute()
 
 
-creds = Credentials.from_authorized_user_file(filename="token.json")
-
-service = build("sheets", "v4", credentials=creds)
-
-sheet = service.spreadsheets()
-
-sheet_id = "1R_Fn8pZjGBPLyNb-2PogOoJexma0ASICCq-5sJir-Ec"
-
 # sheet_read = sheet.values().get(spreadsheetId=sheet_id, range="A1:C4").execute()
 #
 # values = sheet_read.get("values", [])
 
-for row in values:
-    print(row)
-
-body = {"values": [[1, 2], [3, 4]]}
+# for row in values:
+#     print(row)
+#
+# body = {"values": [[1, 2], [3, 4]]}
 
 sheet_write = sheet.values().update(spreadsheetId=sheet_id, range="A1:B2", valueInputOption="RAW", body=body).execute()
 sheet_read = sheet.values().get(spreadsheetId=sheet_id, range="A1:C4").execute()
