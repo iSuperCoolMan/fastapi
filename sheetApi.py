@@ -30,7 +30,7 @@ class SheetAPI:
 
 
     def update_values(self, range: str, values: str):
-        body = {"values": values}
+        body = {"values": list(values)}
 
         self.__sheet.values().update(
             spreadsheetId=self.__sheet_id,
