@@ -13,6 +13,6 @@ async def handle_webhook(request: Request):
     print("Received data:", data)
 
     deformation = ai.create_deformation(data["value"])
-    sheetApi.update_values(f"D{data["row"]}", deformation)
+    sheetApi.update_values(f"D{data["row"]}", [[deformation]])
 
     return {"status": "success", "data": data}
