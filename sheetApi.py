@@ -47,15 +47,15 @@ class SheetAPI:
 #
 # body = {"values": [[1, 2], [3, 4]]}
 
-sheet_write = sheet.values().update(spreadsheetId=sheet_id, range="A1:B2", valueInputOption="RAW", body=body).execute()
-sheet_read = sheet.values().get(spreadsheetId=sheet_id, range="A1:C4").execute()
-
-values = sheet_read.get("values", [])
-
-for row in values:
-    print(row)
-
-body = {"properties": {"title": "test"}}
-new_sheet = sheet.create(body=body, fields="spreadsheetId").execute()
-print(f"Spreadsheet ID: {(new_sheet.get('spreadsheetId'))}")
+# sheet_write = sheet.values().update(spreadsheetId=sheet_id, range="A1:B2", valueInputOption="RAW", body=body).execute()
+# sheet_read = sheet.values().get(spreadsheetId=sheet_id, range="A1:C4").execute()
+#
+# values = sheet_read.get("values", [])
+#
+# for row in values:
+#     print(row)
+#
+# body = {"properties": {"title": "test"}}
+# new_sheet = sheet.create(body=body, fields="spreadsheetId").execute()
+# print(f"Spreadsheet ID: {(new_sheet.get('spreadsheetId'))}")
 
