@@ -2,7 +2,7 @@ from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 
 
-creds = Credentials.from_authorized_user_file(filename="token.json")
+filename = "token.json"
 id = "1R_Fn8pZjGBPLyNb-2PogOoJexma0ASICCq-5sJir-Ec"
 
 
@@ -13,7 +13,7 @@ class SheetAPI:
     __sheet_id = None
 
 
-    def __init__(self, creds_file_name: str = creds, sheet_id: str = id):
+    def __init__(self, creds_file_name: str = filename, sheet_id: str = id):
         self.__creds = Credentials.from_authorized_user_file(filename=creds_file_name)
         self.__service = build("sheets", "v4", credentials=self.__creds)
         self.__sheet = self.__service.spreadsheets()
@@ -30,9 +30,11 @@ class SheetAPI:
 
 
     def update_values(self, range: str, values: str):
+        body = {"values": values}
+
         self.__sheet.values().update(
             spreadsheetId=self.__sheet_id,
-            range="A1:B2",
+            range=range,
             valueInputOption="RAW",
             body=body
         ).execute()
