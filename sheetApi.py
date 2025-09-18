@@ -29,8 +29,8 @@ class SheetAPI:
         return sheet_read.get("values", [])
 
 
-    def update_values(self, range: str, values: str):
-        body = {"values": list(values)}
+    def update_values(self, range: str, values):
+        body = {"values": values}
 
         self.__sheet.values().update(
             spreadsheetId=self.__sheet_id,
@@ -38,6 +38,9 @@ class SheetAPI:
             valueInputOption="RAW",
             body=body
         ).execute()
+
+
+SheetAPI().update_values("D3:D3", [["test"]])
 
 
 # sheet_read = sheet.values().get(spreadsheetId=sheet_id, range="A1:C4").execute()
