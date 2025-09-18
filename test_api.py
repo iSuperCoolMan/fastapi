@@ -1,11 +1,10 @@
 from fastapi import FastAPI, Request
-from sheetApi import SheetAPI
+import sheetApi
 import ai
 
 
-
 app = FastAPI()
-sheetApi = SheetAPI()
+sheetApi = sheetApi.SheetAPI()
 
 
 @app.post("/")
