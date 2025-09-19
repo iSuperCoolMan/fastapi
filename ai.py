@@ -21,13 +21,13 @@ def create_deformation(think: str):  # создаем ввод текста
 
     promt2 = f"Опиши, почему ты сделал такой выбор?"
 
-    chat1 = openai.chat.completions.create(model="gpt-oss-20b", messages=[
+    chat1 = openai.chat.completions.create(model="gpt3-turbo", messages=[
         {"role": "user", "content": promt1}
     ])
 
     deformation = chat1.choices[0].message.content
 
-    chat2 = openai.chat.completions.create(model="gpt-oss-20b", messages=[
+    chat2 = openai.chat.completions.create(model="gpt3-turbo", messages=[
         {"role": "user", "content": promt1},
         {"role": "assistant", "content": deformation},
         {"role": "user", "content": promt2}
