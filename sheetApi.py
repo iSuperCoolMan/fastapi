@@ -35,32 +35,133 @@ class SheetAPI:
         self.__sheet.values().update(
             spreadsheetId=self.__sheet_id,
             range=range,
-            valueInputOption="RAW",
+            valueInputOption="USER_ENTERED",
             body=body
         ).execute()
 
 
-# SheetAPI().update_values("D3:D3", [["test"]])
+    def type_arrow_down(self, index: int):
+        requests = [{
+            "updateDimensionProperties": {
+                "range": {
+                    "dimension": "ROWS",
+                    "startIndex": index - 1,
+                    "endIndex": index
+                },
+                "properties": {
+                    "pixelSize": 20
+                },
+                "fields": "pixelSize"
+            }
+        },
+        {
+            "updateCells": {
+                "rows": [
+                    {
+                        "values": [
+                            {
+                                "userEnteredValue": {
+                                    "stringValue": "↓"
+                                },
+                                "userEnteredFormat": {
+                                    "horizontalAlignment": "CENTER",
+                                    "verticalAlignment": "MIDDLE"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "fields": "userEnteredValue,userEnteredFormat.horizontalAlignment,userEnteredFormat.verticalAlignment",
+                "start": {
+                    "rowIndex": index - 1,
+                    "columnIndex": 0
+                }
+            }
+        }]
+
+        self.__sheet.batchUpdate(
+            spreadsheetId=self.__sheet_id,
+            body={'requests': requests}
+        ).execute()
 
 
-# sheet_read = sheet.values().get(spreadsheetId=sheet_id, range="A1:C4").execute()
-#
-# values = sheet_read.get("values", [])
+    def clear_value(self, row: int, column: int):
+        requests = [{
+            "repeatCell": {
+                "range": {
+                    "startRowIndex": row - 1,
+                    "endRowIndex": row,
+                    "startColumnIndex": column - 1,
+                    "endColumnIndex": column
+                },
+                "cell": {
+                    "dataValidation": None
+                },
+                "fields": "dataValidation"
+            }
+        },
+        # Очищаем содержимое ячейки (сбрасываем значение)
+        {
+            "updateCells": {
+                "range": {
+                    "startRowIndex": row - 1,
+                    "endRowIndex": row,
+                    "startColumnIndex": column - 1,
+                    "endColumnIndex": column
+                },
+                "rows": [
+                    {
+                        "values": [
+                            {
+                                "userEnteredValue": None
+                            }
+                        ]
+                    }
+                ],
+                "fields": "userEnteredValue"
+            }
+        }]
 
-# for row in values:
-#     print(row)
-#
-# body = {"values": [[1, 2], [3, 4]]}
+        self.__sheet.batchUpdate(
+            spreadsheetId=self.__sheet_id,
+            body={"requests": requests}
+        ).execute()
 
-# sheet_write = sheet.values().update(spreadsheetId=sheet_id, range="A1:B2", valueInputOption="RAW", body=body).execute()
-# sheet_read = sheet.values().get(spreadsheetId=sheet_id, range="A1:C4").execute()
-#
-# values = sheet_read.get("values", [])
-#
-# for row in values:
-#     print(row)
-#
-# body = {"properties": {"title": "test"}}
-# new_sheet = sheet.create(body=body, fields="spreadsheetId").execute()
-# print(f"Spreadsheet ID: {(new_sheet.get('spreadsheetId'))}")
+
+    def create_checkbox(self, index: int):
+        requests = [
+            {
+                "updateCells": {
+                    "range": {
+                        "startRowIndex": index - 1,
+                        "endRowIndex": index,
+                        "startColumnIndex": 3,
+                        "endColumnIndex": 4
+                    },
+                    "rows": [
+                        {
+                            "values": [
+                                {
+                                    "userEnteredValue": {
+                                        "boolValue": False
+                                    },
+                                    "dataValidation": {
+                                        "condition": {
+                                            "type": "BOOLEAN"
+                                        },
+                                        "strict": True,
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "fields": "userEnteredValue,dataValidation"
+                }
+            }
+        ]
+
+        self.__sheet.batchUpdate(
+            spreadsheetId=self.__sheet_id,
+            body={'requests': requests}
+        ).execute()
 
