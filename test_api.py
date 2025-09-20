@@ -17,13 +17,15 @@ async def handle_webhook(request: Request):
             sheetApi.create_checkbox(data["row"])
             print(f"Checkbox created at D{data["row"]}")
             sheetApi.type_arrow_down(data["row"] + 1)
+            print(f"Typed arrow down at A{data["row"] + 1}")
         else:
-            sheetApi.clear_value(data["row"] + 1, 1)
-            print(f"Field cleared at A{data["row"] + 1}")
             sheetApi.clear_value(data["row"], 4)
             print(f"Field cleared at D{data["row"]}")
+            sheetApi.clear_value(data["row"] + 1, 1)
+            print(f"Field cleared at A{data["row"] + 1}")
     elif data["column"] == 4:
         response = ai.create_deformation(data["value"])
         sheetApi.update_values(f"E{data["row"]}", [[response["deformation"]]])
+        sheetApi.update_values(f"D{data["row"]}", [["FALSE"]])
 
     return {"status": "success", "data": data}

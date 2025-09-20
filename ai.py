@@ -17,28 +17,28 @@ def create_deformation(think: str):
     return think
 
 
-def create_deformation(think: str):  # создаем ввод текста
-    promt1 = f"Ты психолог. "\
-             f"Выбери из списка подходящие когнитивные искажения к мысли в кавычках и отправь только их."\
-             f"\n{deformations}\n"\
-             f"\n\"{think}\""
-
-    promt2 = f"Опиши, почему ты сделал такой выбор?"
-
-    chat1 = openai.chat.completions.create(model="gpt3-turbo", messages=[
-        {"role": "user", "content": promt1}
-    ])
-
-    deformation = chat1.choices[0].message.content
-
-    chat2 = openai.chat.completions.create(model="gpt3-turbo", messages=[
-        {"role": "user", "content": promt1},
-        {"role": "assistant", "content": deformation},
-        {"role": "user", "content": promt2}
-    ])
-
-    description = chat2.choices[0].message.content
-
-    print(f"{deformation}\n\n{description}")
-
-    return {"deformation": deformation, "description": description}
+# def create_deformation(think: str):  # создаем ввод текста
+#     promt1 = f"Ты психолог. "\
+#              f"Выбери из списка подходящие когнитивные искажения к мысли в кавычках и отправь только их."\
+#              f"\n{deformations}\n"\
+#              f"\n\"{think}\""
+#
+#     promt2 = f"Опиши, почему ты сделал такой выбор?"
+#
+#     chat1 = openai.chat.completions.create(model="gpt3-turbo", messages=[
+#         {"role": "user", "content": promt1}
+#     ])
+#
+#     deformation = chat1.choices[0].message.content
+#
+#     chat2 = openai.chat.completions.create(model="gpt3-turbo", messages=[
+#         {"role": "user", "content": promt1},
+#         {"role": "assistant", "content": deformation},
+#         {"role": "user", "content": promt2}
+#     ])
+#
+#     description = chat2.choices[0].message.content
+#
+#     print(f"{deformation}\n\n{description}")
+#
+#     return {"deformation": deformation, "description": description}
