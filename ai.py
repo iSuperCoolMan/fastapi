@@ -14,7 +14,7 @@ deformations = ("Перфекционизм в достижениях; восп�
 
 
 def create_deformation(think: str):
-    return think
+    return {"deformation": think, "description": think}
 
 
 # def create_deformation(think: str):  # создаем ввод текста
