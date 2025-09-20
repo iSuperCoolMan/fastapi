@@ -18,9 +18,9 @@ async def handle_webhook(request: Request):
             print(f"Checkbox created at D{data["row"]}")
             sheetApi.type_arrow_down(data["row"] + 1)
         else:
-            sheetApi.clear_value(data["row"], 1)
-            print(f"Field cleared at A{data["row"]}")
-            sheetApi.clear_value(data["row"] + 1, 4)
+            sheetApi.clear_value(data["row"] + 1, 1)
+            print(f"Field cleared at A{data["row"] + 1}")
+            sheetApi.clear_value(data["row"], 4)
             print(f"Field cleared at D{data["row"]}")
     elif data["column"] == 4:
         response = ai.create_deformation(data["value"])
