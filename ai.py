@@ -1,7 +1,7 @@
-import openai
+from google import genai
 
 
-openai.api_key="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" #задаем переменную токена
+client = genai.Client(api_key="AIzaSyAt-lA3DkrV0jhrQmai-odan_fgbwFUmr8")
 
 deformations = ("Перфекционизм в достижениях; воспринимаемый перфекционизм; зависимость от достижений;\n"
                 "Зависимость от одобрения; зависимость от любви; страх отвержения;\n"
@@ -14,31 +14,26 @@ deformations = ("Перфекционизм в достижениях; восп�
 
 
 def create_deformation(think: str):
-    return {"deformation": think, "description": think}
+    chat = client.chats.create(model="gemini-2.5-flash-lite")
+
+    promt1 = f"Ты психолог. "\
+             f"Выбери из списка подходящие когнитивные искажения к мысли в кавычках и отправь только их."\
+             f"\n{deformations}\n"\
+             f"\n\"{think}\""
+
+    promt2 = f"Опиши, почему ты сделал такой выбор?"
+
+    response = chat.send_message(promt1)
+    print(response.text)
+    deformation = response.text
+
+    response = chat.send_message(promt2)
+    print(response.text)
+    description = response.text
+
+    # print(f"{deformation}\n\n{description}")
+
+    return {"deformation": deformation, "description": description}
 
 
-# def create_deformation(think: str):  # создаем ввод текста
-#     promt1 = f"Ты психолог. "\
-#              f"Выбери из списка подходящие когнитивные искажения к мысли в кавычках и отправь только их."\
-#              f"\n{deformations}\n"\
-#              f"\n\"{think}\""
-#
-#     promt2 = f"Опиши, почему ты сделал такой выбор?"
-#
-#     chat1 = openai.chat.completions.create(model="gpt3-turbo", messages=[
-#         {"role": "user", "content": promt1}
-#     ])
-#
-#     deformation = chat1.choices[0].message.content
-#
-#     chat2 = openai.chat.completions.create(model="gpt3-turbo", messages=[
-#         {"role": "user", "content": promt1},
-#         {"role": "assistant", "content": deformation},
-#         {"role": "user", "content": promt2}
-#     ])
-#
-#     description = chat2.choices[0].message.content
-#
-#     print(f"{deformation}\n\n{description}")
-#
-#     return {"deformation": deformation, "description": description}
+create_deformation("Грустно что я не делаю задачу.")
