@@ -21,19 +21,14 @@ def create_deformation(think: str):
              f"\n{deformations}\n"\
              f"\n\"{think}\""
 
-    promt2 = f"Опиши, почему ты сделал такой выбор?"
+    promt2 = f"Кратко опиши, почему ты сделал такой выбор?"
 
     response = chat.send_message(promt1)
-    print(response.text)
     deformation = response.text
 
     response = chat.send_message(promt2)
-    print(response.text)
     description = response.text
 
-    # print(f"{deformation}\n\n{description}")
+    print(f"{deformation}\n\n{description}")
 
     return {"deformation": deformation, "description": description}
-
-
-create_deformation("Грустно что я не делаю задачу.")

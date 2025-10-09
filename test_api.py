@@ -7,25 +7,29 @@ app = FastAPI()
 sheetApi = sheetApi.SheetAPI()
 
 
-@app.post("/")
-async def handle_webhook(request: Request):
+@app.post("/arrow/1")
+async def handle_edit_first_column(request: Request):
     data = await request.json()
     print("Received data:", data)
 
-    if data["column"] == 1:
-        if data["value"]:
-            sheetApi.create_checkbox(data["row"])
-            print(f"Checkbox created at D{data["row"]}")
-            sheetApi.type_arrow_down(data["row"] + 1)
-            print(f"Typed arrow down at A{data["row"] + 1}")
-        else:
-            sheetApi.clear_value(data["row"], 4)
-            print(f"Field cleared at D{data["row"]}")
-            sheetApi.clear_value(data["row"] + 1, 1)
-            print(f"Field cleared at A{data["row"] + 1}")
-    elif data["column"] == 4:
-        response = ai.create_deformation(data["value"])
-        sheetApi.update_values(f"E{data["row"]}", [[response["deformation"]]])
-        sheetApi.update_values(f"D{data["row"]}", [["FALSE"]])
+    if data["value"]:
+        sheetApi.create_checkbox(data["id"], data["row"])
+        print(f"Checkbox created at D{data["row"]}")
+    else:
+        sheetApi.clear_value(data["id"], data["row"], 4)
+        print(f"Checkbox deleted at D{data["row"]}")
+
+    return {"status": "success", "data": data}
+
+
+@app.post("/arrow/4")
+async def handle_edit_fourth_column(request: Request):
+    data = await request.json()
+    print("Received data:", data)
+
+    response = ai.create_deformation(data["value"])
+    sheetApi.update_values(data["id"], f"E{data["row"]}", [[response["deformation"]]])
+    sheetApi.update_note_value(data["id"], data["row"], response["description"])
+    sheetApi.update_values(data["id"], f"D{data["row"]}", [["FALSE"]])
 
     return {"status": "success", "data": data}
