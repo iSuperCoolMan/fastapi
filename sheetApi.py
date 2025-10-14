@@ -52,7 +52,7 @@ class SheetAPI:
                 ],
                 "fields": "note",
                 "start": {
-                    "rowIndex": row,
+                    "rowIndex": row - 1,
                     "columnIndex": 4
                 }
             }
