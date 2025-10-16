@@ -32,3 +32,33 @@ def create_deformation(think: str):
     print(f"{deformation}\n\n{description}")
 
     return {"deformation": deformation, "description": description}
+
+
+def create_advantage(think: str, advantages: list[str], disadvantages: list[str], advantage_condition: bool):
+    chat = client.chats.create(model="gemini-2.5-flash-lite")
+
+    advantages = list_to_string(advantages)
+    disadvantages = list_to_string(disadvantages)
+
+    if advantage_condition:
+        generated_description = "плюс"
+    else:
+        generated_description = "минус"
+
+    promt = f"Есть мысль: \"{think}\"\n. " \
+             f"У неё есть плюсы{advantages} и минусы{disadvantages}\n" \
+             f"Напиши {generated_description}, и отправь только его"
+
+    response = chat.send_message(promt)
+    description = response.text
+
+    print(f"{description}")
+
+    return description
+
+
+def list_to_string(list_of_str: list[str]):
+    if len(list_of_str) > 0:
+        return ":\n" + "\n".join(list_of_str) + "\n"
+    else:
+        return ""

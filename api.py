@@ -7,6 +7,24 @@ app = FastAPI()
 sheetApi = sheetApi.SheetAPI()
 
 
+@app.post("/advantages/")
+async def handle_edit_third_column(request: Request):
+    data = await request.json()
+    print("Received data:", data)
+
+    advantage = ai.create_advantage(request["think"], request["advantages"], request["disadvantages"], request["condition"])
+
+    if request["condition"]:
+        row = len(request["advantages"])
+        sheetApi.update_values(data["id"], f"A{row}", [[advantage]])
+        sheetApi.update_values(data["id"], f"C4", [["FALSE"]])
+    else:
+        row = len(request["disadvantages"])
+        sheetApi.update_values(data["id"], f"D{row}", [[advantage]])
+        sheetApi.update_values(data["id"], f"C4", [["FALSE"]])
+
+
+
 @app.post("/arrow/1")
 async def handle_edit_first_column(request: Request):
     data = await request.json()
