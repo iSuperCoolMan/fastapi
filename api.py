@@ -14,13 +14,15 @@ async def handle_edit_third_column(request: Request):
 
     advantage = ai.create_advantage(request["think"], request["advantages"], request["disadvantages"], request["condition"])
 
+    start_row = 6
+
     if request["condition"]:
         row = len(request["advantages"])
-        sheetApi.update_values(data["id"], f"A{row}", [[advantage]])
+        sheetApi.update_values(data["id"], f"A{row + start_row}", [[advantage]])
         sheetApi.update_values(data["id"], f"C4", [["FALSE"]])
     else:
         row = len(request["disadvantages"])
-        sheetApi.update_values(data["id"], f"D{row}", [[advantage]])
+        sheetApi.update_values(data["id"], f"D{row + start_row}", [[advantage]])
         sheetApi.update_values(data["id"], f"C4", [["FALSE"]])
 
 
