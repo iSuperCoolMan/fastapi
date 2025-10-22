@@ -12,7 +12,7 @@ async def handle_edit_third_column(request: Request):
     data = await request.json()
     print("Received data:", data)
 
-    advantage = ai.create_advantage(request["think"], request["advantages"], request["disadvantages"], request["condition"])
+    advantage = ai.create_advantage(data["think"], data["advantages"], data["disadvantages"], data["condition"])
 
     start_row = 6
 
