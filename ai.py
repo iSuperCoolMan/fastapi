@@ -34,7 +34,7 @@ def create_deformation(think: str):
     return {"deformation": deformation, "description": description}
 
 
-def create_advantage(think: str, advantages: list[str], disadvantages: list[str], advantage_condition: bool):
+def create_advantage(think: str, advantages: list[list[str]], disadvantages: list[list[str]], advantage_condition: bool):
     chat = client.chats.create(model="gemini-2.5-flash-lite")
 
     advantages = list_to_string(advantages)
@@ -59,7 +59,9 @@ def create_advantage(think: str, advantages: list[str], disadvantages: list[str]
     return description
 
 
-def list_to_string(list_of_str: list[str]):
+def list_to_string(list_of_str: list[list[str]]):
+    list_of_str = [string[0] for string in list_of_str]
+
     if len(list_of_str) > 0:
         return ":\n" + "\n".join(list_of_str) + "\n"
     else:
