@@ -16,12 +16,12 @@ async def handle_edit_third_column(request: Request):
 
     start_row = 6
 
-    if request["condition"]:
-        row = len(request["advantages"])
+    if data["condition"]:
+        row = len(data["advantages"])
         sheetApi.update_values(data["id"], f"A{row + start_row}", [[advantage]])
         sheetApi.update_values(data["id"], f"C4", [["FALSE"]])
     else:
-        row = len(request["disadvantages"])
+        row = len(data["disadvantages"])
         sheetApi.update_values(data["id"], f"D{row + start_row}", [[advantage]])
         sheetApi.update_values(data["id"], f"C4", [["FALSE"]])
 
