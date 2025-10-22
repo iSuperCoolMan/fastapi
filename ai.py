@@ -47,7 +47,9 @@ def create_advantage(think: str, advantages: list[str], disadvantages: list[str]
 
     promt = f"Есть мысль: \"{think}\"\n. " \
              f"У неё есть плюсы{advantages} и минусы{disadvantages}\n" \
-             f"Напиши {generated_description}, и отправь только его"
+             f"Напиши {generated_description}, которого нет в списке, и отправь только его"
+
+    print(promt)
 
     response = chat.send_message(promt)
     description = response.text
@@ -61,4 +63,4 @@ def list_to_string(list_of_str: list[str]):
     if len(list_of_str) > 0:
         return ":\n" + "\n".join(list_of_str) + "\n"
     else:
-        return ""
+        return "(пусто)"
