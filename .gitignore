@@ -179,3 +179,7 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+ai_key.txt
+credentials.json
+token.json
+spreadsheet_token.json

@@ -13,6 +13,8 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 SAMPLE_SPREADSHEET_ID = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
 SAMPLE_RANGE_NAME = "Class Data!A2:E"
 
+file_name = "spreadsheet_token.json"
+
 
 def main():
   """Shows basic usage of the Sheets API.
@@ -22,8 +24,8 @@ def main():
   # The file token.json stores the user's access and refresh tokens, and is
   # created automatically when the authorization flow completes for the first
   # time.
-  if os.path.exists("token.json"):
-    creds = Credentials.from_authorized_user_file(filename="token.json", scopes=SCOPES)
+  if os.path.exists(file_name):
+    creds = Credentials.from_authorized_user_file(filename=file_name, scopes=SCOPES)
   # If there are no (valid) credentials available, let the user log in.
   if not creds or not creds.valid:
     if creds and creds.expired and creds.refresh_token:
@@ -35,7 +37,7 @@ def main():
       )
       creds = flow.run_local_server(port=0)
     # Save the credentials for the next run
-    with open("token.json", "w") as token:
+    with open(file_name, "w") as token:
       token.write(creds.to_json())
 
   try:

@@ -1,7 +1,18 @@
+import os.path
+
 from google import genai
 
 
-client = genai.Client(api_key="AIzaSyAt-lA3DkrV0jhrQmai-odan_fgbwFUmr8")
+file_name = "ai_key.txt"
+
+if os.path.exists(file_name):
+    with open(file_name) as key_file:
+        key = key_file.read()
+else:
+    raise Exception(f"Создайте {file_name}, и поместите в него ключ от gemini")
+
+
+client = genai.Client(api_key=key)
 
 deformations = ("Перфекционизм в достижениях; воспринимаемый перфекционизм; зависимость от достижений;\n"
                 "Зависимость от одобрения; зависимость от любви; страх отвержения;\n"
@@ -46,7 +57,7 @@ def create_advantage(think: str, advantages: list[list[str]], disadvantages: lis
         generated_description = "минус"
 
     promt = f"Есть мысль: \"{think}\"\n. " \
-             f"У неё есть плюсы{advantages} и минусы{disadvantages}\n" \
+             f"У неё есть плюсы{advantages}и минусы{disadvantages}\n" \
              f"Напиши {generated_description}, которого нет в списке, и отправь только его"
 
     print(promt)
@@ -65,4 +76,4 @@ def list_to_string(list_of_str: list[list[str]]):
     if len(list_of_str) > 0:
         return ":\n" + "\n".join(list_of_str) + "\n"
     else:
-        return "(пусто)"
+        return " (пусто) "

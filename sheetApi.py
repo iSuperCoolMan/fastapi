@@ -3,7 +3,6 @@ from google.oauth2.credentials import Credentials
 
 
 filename = "token.json"
-id = "1R_Fn8pZjGBPLyNb-2PogOoJexma0ASICCq-5sJir-Ec"
 
 
 class SheetAPI:
@@ -12,7 +11,7 @@ class SheetAPI:
     __sheet = None
 
 
-    def __init__(self, creds_file_name: str = filename, sheet_id: str = id):
+    def __init__(self, creds_file_name: str = filename):
         self.__creds = Credentials.from_authorized_user_file(filename=creds_file_name)
         self.__service = build("sheets", "v4", credentials=self.__creds)
         self.__sheet = self.__service.spreadsheets()
